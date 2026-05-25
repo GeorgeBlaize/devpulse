@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";                    // ← Must be imported
+import bcrypt from "bcrypt";
 import { StatusCodes } from "http-status-codes";
 
 import { createUser, findUserByEmail } from "./auth.service";

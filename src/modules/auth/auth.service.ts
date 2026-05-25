@@ -1,9 +1,31 @@
-import { Router } from "express";
-import { login, signup } from "./auth.controller";
+import bcrypt from "bcrypt";
+import { pool } from "../../config/db";
 
-const router = Router();
+export const createUser = async (
+  name: string,
+  email: string,
+  password: string,
+  role: string = "contributor"
+) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-router.post("/signup", signup);
-router.post("/login", login);
+  const query = `
+    INSERT INTO users (name, email, password, role)
+    VALUES ($1, $2, $3, $4)
+    RETURNING id, name, email, role, created_at, updated_at
+  `;
 
-export default router;
+  const values = [name, email, hashedPassword, role];
+
+  const result = await pool.query(query, values);
+  return result.rows[0];
+};
+
+export const findUserByEmail = async (email: string) => {
+  const result = await pool.query(
+    "SELECT * FROM users WHERE email = $1",
+    [email]
+  );
+
+  return result.rows[0];
+};

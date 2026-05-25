@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   res.send("🚀 DevPulse API is Running");
 });
 
- the end!
+
 app.use(errorHandler);
 
 export default app;
