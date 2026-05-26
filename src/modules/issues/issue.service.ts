@@ -1,4 +1,4 @@
-import { pool } from "../../config/db";
+import { pool } from "../../db";
 
 export const createIssueService = async (title: string, description: string, type: string, reporter_id: number) => {
   const query = `
@@ -64,6 +64,8 @@ export const updateIssueService = async (id: string, title: string, description:
   return rows[0];
 };
 
+
 export const deleteIssueService = async (id: string) => {
-  await pool.query("DELETE FROM issues WHERE id = $1", [id]);
+  const result = await pool.query("DELETE FROM issues WHERE id = $1 RETURNING id", [id]);
+  return result.rowCount; // returns 1 if deleted, 0 if not found
 };

@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
-import { pool } from "../../config/db";
-
+import { pool } from "../../db";
 export const createUser = async (
   name: string,
   email: string,

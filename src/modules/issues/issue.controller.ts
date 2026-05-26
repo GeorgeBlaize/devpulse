@@ -30,7 +30,7 @@ export const getAllIssues = async (req: Request, res: Response) => {
 
 export const getSingleIssue = async (req: Request, res: Response) => {
   try {
-    const issue = await getSingleIssueService(req.params.id);
+    const issue = await getSingleIssueService(req.params.id as string);
     if (!issue) return sendResponse(res, 404, false, "Issue not found");
     return sendResponse(res, 200, true, "Issue retrieved successfully", issue);
   } catch (error: any) {
@@ -41,7 +41,7 @@ export const getSingleIssue = async (req: Request, res: Response) => {
 export const updateIssue = async (req: Request, res: Response) => {
   try {
     const { title, description, type } = req.body;
-    const issue = await updateIssueService(req.params.id, title, description, type);
+    const issue = await updateIssueService(req.params.id as string, title, description, type);
     return sendResponse(res, 200, true, "Issue updated successfully", issue);
   } catch (error: any) {
     return sendResponse(res, 500, false, "Update failed", null, error.message);
@@ -50,7 +50,12 @@ export const updateIssue = async (req: Request, res: Response) => {
 
 export const deleteIssue = async (req: Request, res: Response) => {
   try {
-    await deleteIssueService(req.params.id);
+    const deleted = await deleteIssueService(req.params.id as string);
+    
+    if (deleted === 0) {
+      return sendResponse(res, 404, false, "Issue not found");
+    }
+
     return sendResponse(res, 200, true, "Issue deleted successfully");
   } catch (error: any) {
     return sendResponse(res, 500, false, "Delete failed", null, error.message);
