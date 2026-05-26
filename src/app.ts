@@ -14,7 +14,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/issues", issueRoutes);
 
 app.get("/", (req, res) => {
-  res.send("🚀 DevPulse API is Running");
+  res.send("DevPulse API is Running.");
 });
 
 
