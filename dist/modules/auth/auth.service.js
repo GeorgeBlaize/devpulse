@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findUserByEmail = exports.createUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const db_1 = require("../../config/db");
+const db_1 = require("../../db");
 const createUser = async (name, email, password, role = "contributor") => {
     const hashedPassword = await bcrypt_1.default.hash(password, 10);
     const query = `

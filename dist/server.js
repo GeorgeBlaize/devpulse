@@ -6,8 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app_1 = __importDefault(require("./app"));
+const db_1 = require("./db"); // ← Import here
 const PORT = process.env.PORT || 5000;
-app_1.default.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+const startServer = async () => {
+    try {
+        await (0, db_1.initDB)(); // ← Initialize tables
+        app_1.default.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+        });
+    }
+    catch (error) {
+        console.error("Failed to start server:", error);
+    }
+};
+startServer();
 //# sourceMappingURL=server.js.map

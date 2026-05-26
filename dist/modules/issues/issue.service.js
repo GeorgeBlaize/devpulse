@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteIssueService = exports.updateIssueService = exports.getSingleIssueService = exports.getAllIssuesService = exports.createIssueService = void 0;
-const db_1 = require("../../config/db");
+const db_1 = require("../../db");
 const createIssueService = async (title, description, type, reporter_id) => {
     const query = `
     INSERT INTO issues (title, description, type, reporter_id)
@@ -63,7 +63,8 @@ const updateIssueService = async (id, title, description, type) => {
 };
 exports.updateIssueService = updateIssueService;
 const deleteIssueService = async (id) => {
-    await db_1.pool.query("DELETE FROM issues WHERE id = $1", [id]);
+    const result = await db_1.pool.query("DELETE FROM issues WHERE id = $1 RETURNING id", [id]);
+    return result.rowCount; // returns 1 if deleted, 0 if not found
 };
 exports.deleteIssueService = deleteIssueService;
 //# sourceMappingURL=issue.service.js.map

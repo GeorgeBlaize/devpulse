@@ -50,7 +50,10 @@ const updateIssue = async (req, res) => {
 exports.updateIssue = updateIssue;
 const deleteIssue = async (req, res) => {
     try {
-        await (0, issue_service_1.deleteIssueService)(req.params.id);
+        const deleted = await (0, issue_service_1.deleteIssueService)(req.params.id);
+        if (deleted === 0) {
+            return (0, response_1.sendResponse)(res, 404, false, "Issue not found");
+        }
         return (0, response_1.sendResponse)(res, 200, true, "Issue deleted successfully");
     }
     catch (error) {

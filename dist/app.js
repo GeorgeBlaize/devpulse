@@ -14,7 +14,7 @@ app.use(express_1.default.json());
 app.use("/api/auth", auth_routes_1.default);
 app.use("/api/issues", issue_routes_1.default);
 app.get("/", (req, res) => {
-    res.send("🚀 DevPulse API is Running");
+    res.send("DevPulse API is Running.");
 });
 app.use(error_middleware_1.errorHandler);
 exports.default = app;
